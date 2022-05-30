@@ -160,12 +160,12 @@ class _ProfileDetailState extends State<ProfileDetail> {
                             FloatingActionButton(
                               backgroundColor: Colors.red,
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LivePage(
-
-                                        )));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => LivePage(
+                                //
+                                //         )));
 
                               },
                               heroTag: 'video1',
