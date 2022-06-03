@@ -164,6 +164,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => LivePage(
+                                          name: snapshot.data!['name']
 
                                         )));
 
