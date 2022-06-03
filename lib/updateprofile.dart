@@ -65,10 +65,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
         'eat': 0,
         'image': _name.text + "change.png",
         'live': _live.text,
-        'like': 0,
+        'like': false,
         'name': _name.text,
         'sex': _sex.text,
         'weight': int.parse(_weight.text),
+
       };
 
       print("file");
