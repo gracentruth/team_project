@@ -98,7 +98,7 @@ class _AddProfileState extends State<AddProfile> {
                   'eat': 0,
                   'image': _name.text + ".png",
                   'live': _live.text,
-                  'like': 0,
+                  'like': false,
                   'name': _name.text,
                   'sex': _sex.text,
                   'weight': int.parse(_weight.text),
