@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'chatpage.dart';
-import 'livepage2.dart';
+import 'livepage.dart';
 import 'storage.dart';
 
 int rice = 0;

@@ -9,7 +9,7 @@ import 'package:video_player/video_player.dart';
 
 
 
-String docid=' ';
+String docid='';
 
 
 class LivePage extends StatefulWidget {
@@ -18,6 +18,7 @@ class LivePage extends StatefulWidget {
 }
 
 class _LivePageState extends State<LivePage> {
+  List<XFile>? _imageFileList;
 
   void _setImageFileListFromFile(XFile? value) {
     _imageFileList = value == null ? null : <XFile>[value];
@@ -61,7 +62,6 @@ class _LivePageState extends State<LivePage> {
       await _controller!.setVolume(0.0);
     }
     if (isVideo) {
-      print('------------this is video--------------');
       final XFile? file = await _picker.getVideo(
           source: source, maxDuration: const Duration(seconds: 10));
       await _playVideo(file);
@@ -212,7 +212,64 @@ class _LivePageState extends State<LivePage> {
     }
     return null;
   }
-
+  //
+  // Future<void> _displayPickImageDialog(
+  //     BuildContext context, OnPickImageCallback onPick) async {
+  //   return showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: const Text('Add optional parameters'),
+  //           content: Column(
+  //             children: <Widget>[
+  //               TextField(
+  //                 controller: maxWidthController,
+  //                 keyboardType:
+  //                 const TextInputType.numberWithOptions(decimal: true),
+  //                 decoration: const InputDecoration(
+  //                     hintText: 'Enter maxWidth if desired'),
+  //               ),
+  //               TextField(
+  //                 controller: maxHeightController,
+  //                 keyboardType:
+  //                 const TextInputType.numberWithOptions(decimal: true),
+  //                 decoration: const InputDecoration(
+  //                     hintText: 'Enter maxHeight if desired'),
+  //               ),
+  //               TextField(
+  //                 controller: qualityController,
+  //                 keyboardType: TextInputType.number,
+  //                 decoration: const InputDecoration(
+  //                     hintText: 'Enter quality if desired'),
+  //               ),
+  //             ],
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: const Text('CANCEL'),
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //             TextButton(
+  //                 child: const Text('PICK'),
+  //                 onPressed: () {
+  //                   final double? width = maxWidthController.text.isNotEmpty
+  //                       ? double.parse(maxWidthController.text)
+  //                       : null;
+  //                   final double? height = maxHeightController.text.isNotEmpty
+  //                       ? double.parse(maxHeightController.text)
+  //                       : null;
+  //                   final int? quality = qualityController.text.isNotEmpty
+  //                       ? int.parse(qualityController.text)
+  //                       : null;
+  //                   onPick(width, height, quality);
+  //                   Navigator.of(context).pop();
+  //                 }),
+  //           ],
+  //         );
+  //       });
+  // }
 }
 
 
