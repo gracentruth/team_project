@@ -47,8 +47,8 @@ class _ProfileListState extends State<ProfileList> {
                 Expanded(
                   child: GridView.count(
                     crossAxisCount: 1,
-                    padding: const EdgeInsets.all(10.0),
-                    childAspectRatio: 8.0 / 5.0,
+                    padding: const EdgeInsets.all(0.0),
+                    childAspectRatio: 15.0 / 9.5,
                     children:
                         snapshot.data!.docs.map((DocumentSnapshot document) {
                       return Animal(
@@ -106,13 +106,19 @@ class Animal extends StatelessWidget {
   Widget build(BuildContext context) {
     final Storage storage = Storage();
     return Card(
+
+
       clipBehavior: Clip.antiAlias,
+
       child: Column(
+
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           AspectRatio(
+
               aspectRatio: 18 / 11,
               child: Row(
+
                 children: [
                   FutureBuilder(
                       future: storage.downloadURL(image),
@@ -120,11 +126,19 @@ class Animal extends StatelessWidget {
                           AsyncSnapshot<String> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done &&
                             snapshot.hasData) {
-                          return Container(
-                            child: Image.network(
-                              snapshot.data!,
-                              fit: BoxFit.fill,
-                            ),
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child:Container(
+                              padding: EdgeInsets.all(0.0),
+                              width:200,
+
+                              child:Image.network(
+
+                                  snapshot.data!,
+                                  fit: BoxFit.fill
+                              ),
+                            )
+
                           );
                         }
                         if (!snapshot.hasData) {
@@ -134,7 +148,7 @@ class Animal extends StatelessWidget {
                       }),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(3),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,

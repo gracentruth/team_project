@@ -43,6 +43,8 @@ class _ProfileDetailState extends State<ProfileDetail> {
       FirebaseFirestore.instance.collection('animal').doc(docid).snapshots();
 
 
+
+
   @override
   Widget build(BuildContext context) {
     final Storage storage = Storage();
@@ -65,7 +67,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                 children: [
                   FutureBuilder(
                       future: storage.downloadURL(snapshot.data!['image']),
-                      //snapshot.data!['name']
+
                       builder: (BuildContext context,
                           AsyncSnapshot<String> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done &&
@@ -165,7 +167,17 @@ class _ProfileDetailState extends State<ProfileDetail> {
                             FloatingActionButton(
                               backgroundColor: Colors.red,
                               onPressed: () async {
-                                String s2=await storage.downloadURL('${snapshot.data!['name']}_video');
+                                String s2='';
+                               await FirebaseFirestore.instance.collection('video').doc(snapshot.data!['name']).get().then((value)=>{
+                                s2=value.data()!['video'].toString()
+                                }
+                                );
+                              if(s2==''){
+                                s2=await storage.downloadURL('default_video');
+                              }else{
+                                s2=await storage.downloadURL('${snapshot.data!['name']}_video');
+                              }
+
                                 controller=await VideoPlayerController.network(s2)
                                   ..initialize().then((_) {
                                     setState(() {});
