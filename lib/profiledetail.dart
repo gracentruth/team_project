@@ -1,11 +1,15 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 import 'package:image_picker/image_picker.dart';
 import 'chatpage.dart';
 import 'livepage.dart';
 import 'storage.dart';
+import 'package:like_button/like_button.dart';
+import 'package:photo_view/photo_view.dart';
 
 int rice = 0;
 String docid = '';
@@ -18,23 +22,49 @@ List<dynamic> imagelist = [];
 
 class ProfileDetail extends StatefulWidget {
   final String d;
+  bool isFavorite;
 
-  ProfileDetail({required this.d});
+  ProfileDetail({required this.d, required this.isFavorite});
 
   @override
   _ProfileDetailState createState() {
     docid = d;
-    return _ProfileDetailState();
+    return _ProfileDetailState(isFavorite: isFavorite);
   }
 }
 
 class _ProfileDetailState extends State<ProfileDetail> {
+  _ProfileDetailState({required this.isFavorite});
+
   File? _image;
   final picker = ImagePicker();
   List? _outputs;
   String _fileName = 'logo.png';
   bool isVideo = false;
+  bool isFavorite;
 
+  Future<bool> onLikeButtonTapped(bool isLiked) async{
+    final ref = await FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).get();
+    final ref2 = await FirebaseFirestore.instance.collection('animal').doc(docid).get();
+    List<dynamic> list = ref.data()!['favorite'];
+    var name = ref2.data()!['name'];
+    if(!isLiked) {
+      list.add(name);
+      print(list);
+      FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).set({
+        'favorite' : list
+      });
+    }
+    else {
+      list.remove(name);
+      print(list);
+      FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).set({
+        'favorite' : list
+      });
+    }
+    return !isLiked;
+  }
+  
   final CollectionReference animal =
       FirebaseFirestore.instance.collection('animal');
 
@@ -62,11 +92,13 @@ class _ProfileDetailState extends State<ProfileDetail> {
                 children: [
                   FutureBuilder(
                       future: storage.downloadURL(snapshot.data!['image']),
-                      //snapshot.data!['name']
+
                       builder: (BuildContext context,
                           AsyncSnapshot<String> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done &&
                             snapshot.hasData) {
+                          print('----image=-----');
+                          print(    snapshot.data!);
                           return Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.width,
@@ -118,28 +150,10 @@ class _ProfileDetailState extends State<ProfileDetail> {
                                     )));
                           },
                         ),
-                        IconButton(
-                          iconSize: 30,
-                          icon: Icon(Icons.favorite),
-                          color: snapshot.data!['like']
-                              ? Colors.red
-                              : Colors.black,
-                          onPressed: () {
-                            animal.doc(docid).set({
-                              'Category': snapshot.data!['Category'],
-                              'age': snapshot.data!['age'],
-                              'desc': snapshot.data!['desc'],
-                              'eat': snapshot.data!['eat'],
-                              'image': snapshot.data!['image'],
-                              'live': snapshot.data!['live'],
-                              'like': !snapshot.data!['like'],
-                              'name': snapshot.data!['name'],
-                              'sex': snapshot.data!['sex'],
-                              'weight': snapshot.data!['weight'],
-                              'imagelist': imagelist,
-                            });
-                          },
-                        )
+                        LikeButton(
+                          isLiked: isFavorite,
+                          onTap: onLikeButtonTapped,
+                        ),
                       ],
                     ),
                   ),
@@ -159,14 +173,28 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           children: [
                             FloatingActionButton(
                               backgroundColor: Colors.red,
-                              onPressed: () {
+                              onPressed: () async {
+                                String s2='';
+                                await FirebaseFirestore.instance.collection('video').doc(snapshot.data!['name']).get().then((value)=>{
+                                  s2=value.data()!['video'].toString()
+                                }
+                                );
+                                if(s2==''){
+                                  s2=await storage.downloadURL('default_video');
+                                }else{
+                                  s2=await storage.downloadURL('${snapshot.data!['name']}_video');
+                                }
+
+                                controller=await VideoPlayerController.network(s2)
+                                  ..initialize().then((_) {
+                                    setState(() {});
+                                  });
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => LivePage(
-
+                                            name2: snapshot.data!['name']
                                         )));
-
                               },
                               heroTag: 'video1',
                               tooltip: 'Take a Video',
