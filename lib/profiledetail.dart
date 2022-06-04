@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 import 'chatpage.dart';
 import 'livepage.dart';
 import 'storage.dart';
@@ -41,6 +42,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
   final Stream<DocumentSnapshot> _stream =
       FirebaseFirestore.instance.collection('animal').doc(docid).snapshots();
 
+
   @override
   Widget build(BuildContext context) {
     final Storage storage = Storage();
@@ -49,6 +51,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
       stream: _stream,
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         imagelist = snapshot.data!['imagelist'];
+        print(snapshot);
         return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
@@ -67,6 +70,8 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           AsyncSnapshot<String> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done &&
                             snapshot.hasData) {
+                          print('----image=-----');
+                          print(    snapshot.data!);
                           return Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.width,
@@ -159,15 +164,18 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           children: [
                             FloatingActionButton(
                               backgroundColor: Colors.red,
-                              onPressed: () {
+                              onPressed: () async {
+                                String s2=await storage.downloadURL('${snapshot.data!['name']}_video');
+                                controller=await VideoPlayerController.network(s2)
+                                  ..initialize().then((_) {
+                                    setState(() {});
+                                  });
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => LivePage(
-                                          name: snapshot.data!['name']
-
+                                      name2: snapshot.data!['name']
                                         )));
-
                               },
                               heroTag: 'video1',
                               tooltip: 'Take a Video',
