@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:text_to_speech/text_to_speech.dart';
 
 String docid = '';
 String petname = '';
@@ -27,6 +27,7 @@ class _ChatPageState extends State<ChatPage> {
   User user = FirebaseAuth.instance.currentUser!;
   final _controller = TextEditingController();
   String message = "";
+  TextToSpeech tts = TextToSpeech();
 
   void send() async {
     FocusScope.of(context).unfocus();
@@ -169,6 +170,14 @@ class _ChatPageState extends State<ChatPage> {
               color: Colors.white,
               child: Row(
                 children: [
+                  IconButton(
+                    onPressed: () {
+                      tts.setVolume(100.0);
+                      tts.speak(_controller.text);
+                    },
+                    icon: Icon(Icons.delete),
+                    color: Colors.blue,
+                  ),
                   Expanded(
                     child: TextField(
                       maxLines: null,

@@ -46,9 +46,13 @@ dependencies:
   google_sign_in: ^5.3.1
   google_maps_flutter: ^2.1.5
   speech_to_text: ^5.5.0
+  text_to_speech:
+  like_button:
+  animated_bottom_navigation_bar:
+  bottom_navy_bar:
+  photo_view:
+  flutter_native_splash:
   #google_maps_place_picker: ^2.1.0-nullsafety.3
-
-
   geolocator:
   location:
   flutter_chat_ui:
@@ -110,3 +114,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_native_splash:
+  color: "#42a5f5" # 화면 색상
+  image: assets/test.png # 화면 위를 덮을 이미지
+  android_gravity: center # 안드로이드에서 위 이미지를 어느 위치에 자리 잡을지 결정
+  ios_content_mode: center # ios "
+  web_image_mode: center # web "
+  fullscreen: true # 스플래쉬 화면을 전체 스크린으로 보일지 결정. false처리하면 splash화면에서 위아래 흔들리는 문제가 나올 수 있음
+  android12: true # 안드로이드 버전12 지원 유무

@@ -13,6 +13,7 @@ import 'app.dart';
 import 'login.dart';
 import 'mainpage.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 //test
 //
 
@@ -21,6 +22,8 @@ VideoPlayerController? controller2;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
       MultiProvider(
         providers: [
@@ -33,7 +36,8 @@ Future<void> main() async {
           builder: (context, _) => const MyApp(),
         ),
       ));
-  }
+  FlutterNativeSplash.remove();
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -46,102 +50,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.yellow,
       ),
       home: LoginPage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            ElevatedButton(onPressed: () {
-              Navigator.push(context, new MaterialPageRoute(
-                  builder: (context) =>
-                  new LoginPage())
-              );
-            }, child: Text('login')),
-            ElevatedButton(onPressed: () {
-              Navigator.push(context, new MaterialPageRoute(
-                  builder: (context) =>
-                  new ProfileDetail(d:''))
-              );
-            }, child: Text('profile detail')),
-            ElevatedButton(onPressed: () {
-              Navigator.push(context, new MaterialPageRoute(
-                  builder: (context) =>
-                  new ProfileList())
-              );
-            }, child: Text('profile list')),
-
-            ElevatedButton(onPressed: () {
-              //Navigator.push(context, new MaterialPageRoute(
-               //   builder: (context) =>
-                 // new UpdateProfile())
-             // );
-            }, child: Text('update profile')),
-            // ElevatedButton(onPressed: () {
-            //   Navigator.push(context, new MaterialPageRoute(
-            //       builder: (context) =>
-            //       new chartPage())
-            //   );
-            // }, child: Text('chart page ')),
-
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.yellow,
-        selectedItemColor: Colors.black ,
-        unselectedItemColor:Colors.black ,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: ''
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.pets),
-              label: ''
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.groups),
-              label: ''
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: ''
-          ),
-        ],
-        onTap: (index){
-         // _idx = index;
-        },
-        //currentIndex: _idx,
-      ),
     );
   }
 }

@@ -212,13 +212,18 @@ class Animal extends StatelessWidget {
                                   ],
                                 ),
                                 TextButton(
-                                  onPressed: () {
-
+                                  onPressed: () async {
+                                    bool isFavorite;
+                                    final ref = await FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).get();
+                                    List<dynamic> list = ref.data()!['favorite'];
+                                    if(list.contains(name)) {isFavorite = true;}
+                                    else {isFavorite = false;}
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => ProfileDetail(
-                                          d: id
+                                          d: id,
+                                          isFavorite: isFavorite,
                                         ),
                                       ),
                                     );

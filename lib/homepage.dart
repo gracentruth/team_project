@@ -4,6 +4,8 @@ import 'package:team_project/profilelist.dart';
 
 import 'mainpage.dart';
 import 'mypage.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
 double currentLatitude = 0;
 double currentLongitude = 0;
@@ -37,24 +39,32 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
         body: _children[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            onTap: _onTap,
-            currentIndex: _currentIndex,
-            items: [
-              new BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
+        bottomNavigationBar: BottomNavyBar(
+          items: <BottomNavyBarItem>[
+            BottomNavyBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Home'),
+              activeColor: Colors.redAccent,
+              textAlign: TextAlign.center,
+            ),
+            BottomNavyBarItem(
+              icon: Icon(Icons.people),
+              title: Text('People'),
+              activeColor: Colors.purpleAccent,
+              textAlign: TextAlign.center,
+            ),
+            BottomNavyBarItem(
+              icon: Icon(Icons.person),
+              title: Text(
+                'Person',
               ),
-              new BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'My Page',
-              ),
-              new BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'list',
-              )
-            ]
+              activeColor: Colors.pinkAccent,
+              textAlign: TextAlign.center,
+            ),
+          ],
+          onItemSelected: _onTap,
+          selectedIndex: _currentIndex,
+          showElevation: true,
         )
     );
   }
