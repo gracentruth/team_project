@@ -46,6 +46,7 @@ dependencies:
   google_sign_in: ^5.3.1
   google_maps_flutter: ^2.1.5
   speech_to_text: ^5.5.0
+  syncfusion_flutter_charts: ^19.1.54
   #google_maps_place_picker: ^2.1.0-nullsafety.3
 
 
@@ -54,6 +55,7 @@ dependencies:
   flutter_chat_ui:
   video_player: ^2.4.2
   image_picker_platform_interface: ^2.5.0
+  google_maps_place_picker_mb: ^2.0.0-mb.10
 
 
 

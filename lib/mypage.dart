@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:team_project/favorite.dart';
 import 'package:team_project/mydetailpage.dart';
 
+import 'eatchartpage.dart';
+
+
+String name='';
 class MyPage extends StatefulWidget {
 
   @override
@@ -58,7 +62,8 @@ class _MyPageState extends State<MyPage> {
                                     StreamBuilder<DocumentSnapshot>(
                                         stream: FirebaseFirestore.instance.collection('user').doc(user.uid).snapshots(),
                                         builder: (context, snapshots) {
-                                          String name = snapshots.data!.get('name');
+                                           name = snapshots.data!.get('name');
+
                                           return Text(
                                             '${name}',
                                             style: TextStyle(
@@ -124,7 +129,19 @@ class _MyPageState extends State<MyPage> {
                           Column(
                             children: [
                               FloatingActionButton(
-                                onPressed: () {},
+                                onPressed: () {
+
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => eatChartPage(
+                                              n: name
+                                          )));
+
+
+
+
+                                },
                                 backgroundColor: Colors.yellow[100],
                                 child: Icon(Icons.monetization_on, color: Colors.black,),
                               ),
