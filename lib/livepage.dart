@@ -78,6 +78,7 @@ class _LivePageState extends State<LivePage> {
         ..initialize().then((_) {
           setState(() {});
         });
+      controller?.play();
     });
   }
 
@@ -91,15 +92,33 @@ class _LivePageState extends State<LivePage> {
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(name), //snapshot.data!['video']
+            centerTitle: true,
+            title: Text('오늘의 $name'), //snapshot.data!['video']
           ),
           body: Center(
             child: controller != null
-                ? Column(
+                ? Stack(
                     children: [
                       Expanded(
                         child: VideoPlayer(controller!),
                       ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 690,
+                          ),
+                          ElevatedButton(
+                            child: Text('오늘의 $name 다시보기'),
+                            onPressed: () {
+                              setState(() {
+                                controller?.play();
+                              });
+                            },
+                          )
+                        ],
+                      )
+
+
 
                     ],
                   )
@@ -111,6 +130,7 @@ class _LivePageState extends State<LivePage> {
             tooltip: 'Increment',
             child: Icon(Icons.camera),
           ),
+
           // This trailing comma makes auto-formatting nicer for build methods.
         );
       },
