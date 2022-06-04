@@ -88,6 +88,10 @@ class _AddProfileState extends State<AddProfile> {
                     {
                       'list' : [],
                     });
+                FirebaseFirestore.instance.collection('video').doc(_name.text).set(
+                    {
+                      'video':'',
+                    });
 
                 FirebaseFirestore.instance
                     .collection('animal')
@@ -103,7 +107,11 @@ class _AddProfileState extends State<AddProfile> {
                   'sex': _sex.text,
                   'weight': int.parse(_weight.text),
                   'imagelist':[],
+                  'video':'controller'
                 });
+
+
+
                 _name.clear();
                 _sex.clear();
                 _desc.clear();

@@ -17,8 +17,7 @@ import 'package:provider/provider.dart';
 //
 
 
-dynamic pickedFile;
-VideoPlayerController? controller;
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
