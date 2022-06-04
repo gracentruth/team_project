@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'chatpage.dart';
+import 'eatchartpage.dart';
 import 'livepage.dart';
 import 'storage.dart';
 
@@ -110,7 +111,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           ],
                         ),
                         SizedBox(
-                          width: 170,
+                          width: 100,
                         ),
                         IconButton(
                           iconSize: 27,
@@ -146,7 +147,8 @@ class _ProfileDetailState extends State<ProfileDetail> {
                               'imagelist': imagelist,
                             });
                           },
-                        )
+                        ),
+
                       ],
                     ),
                   ),
