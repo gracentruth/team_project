@@ -10,7 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:tflite/tflite.dart';
 import 'Storage.dart';
-import 'getLocaation.dart';
 import 'homepage.dart';
 import 'package:geocoding/geocoding.dart';
 
@@ -25,7 +24,8 @@ class _AddProfileState extends State<AddProfile> {
   File? _image;
   final picker = ImagePicker();
   List? _outputs;
-  GetLocation location = GetLocation();
+
+  // GetLocation location = GetLocation();
   late double start;
   late double end;
 
@@ -81,7 +81,7 @@ class _AddProfileState extends State<AddProfile> {
                 ),
               ),
               onPressed: () async {
-                location.marker(_live);
+                //location.marker(_live);
                 storage.uploadFile(_image!.path, _name.text + ".png");
 
                 FirebaseFirestore.instance
@@ -100,6 +100,8 @@ class _AddProfileState extends State<AddProfile> {
                   'eat': 0,
                   'image': _name.text + ".png",
                   'live': _live,
+                  'live_start': start,
+                  'live_end': end,
                   'like': false,
                   'name': _name.text,
                   'sex': _sex.text,
@@ -240,15 +242,20 @@ class _AddProfileState extends State<AddProfile> {
                                 LatLng(currentLatitude, currentLongitude),
                             useCurrentLocation: true,
                             selectInitialPosition: true,
-                            //usePlaceDetailSearch: true,
+                            //usePlaceDetailSearch: true
                             onPlacePicked: (result) async {
                               selectedPlace = result;
                               Navigator.of(context).pop();
-                                _live = selectedPlace?.formattedAddress ?? "";
-                             // List<Location> locations = await locationFromAddress(_live);
+                              _live = selectedPlace?.formattedAddress ?? "";
 
-                              //start = location.start(_live);
-                              print(selectedPlace.toString());
+                              List<Location> locations =
+                                  await locationFromAddress(_live);
+                              var live_list =
+                                  locations[0].toString().split(":");
+                              var live_start = live_list[1].split(",");
+                              start = double.parse(live_start[0].toString());
+                              var live_end = live_list[2].split(",");
+                             end = double.parse(live_end[0].toString());
                             },
                           );
                         },

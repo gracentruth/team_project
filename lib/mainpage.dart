@@ -26,7 +26,7 @@ class _MainPageState extends State<MainPage> {
   _MainPageState(
       {required this.currentLatitude, required this.currentLongitude});
 
-  GetLocation location = GetLocation();
+  // GetLocation location = GetLocation();
   Completer<GoogleMapController> _controller = Completer();
   TextEditingController _search = TextEditingController();
   Location currentLocation = Location();
@@ -40,7 +40,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     getLocation();
-    //getMarker();
+    getMarker();
   }
 
   getLocation() async {
@@ -50,12 +50,27 @@ class _MainPageState extends State<MainPage> {
     currentLongitude = position.longitude;
   }
 
-  // getMarker() async {
-  //   FirebaseFirestore.instance.collection("animal").doc(docid).get().then((DocumentSnapshot ds){
-  //     location.marker(ds.data['live']);
-  //     print(title);
-  //   });
-  // }
+  getMarker() async {
+    await for (var snapshot
+        in FirebaseFirestore.instance.collection('animal').snapshots()) {
+      for (var message in snapshot.docs) {
+        _markers.add(Marker(
+          //add second marker
+          markerId: MarkerId(message.id),
+          position:
+              LatLng(message.data()['live_start'], message.data()['live_end']),
+          //position of marker
+          infoWindow: InfoWindow(
+            //popup info
+            title: message.data()['name'],
+          ),
+          icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+        ));
+
+      }
+    }
+    print(_markers.length);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +99,7 @@ class _MainPageState extends State<MainPage> {
                 height: 400,
                 child: currentLatitude != 0 && currentLongitude != 0
                     ? GoogleMap(
+                        markers: _markers,
                         myLocationEnabled: true,
                         initialCameraPosition: CameraPosition(
                           target: LatLng(currentLatitude, currentLongitude),
