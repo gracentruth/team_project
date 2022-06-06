@@ -87,12 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   new LoginPage())
               );
             }, child: Text('login')),
-            ElevatedButton(onPressed: () {
-              Navigator.push(context, new MaterialPageRoute(
-                  builder: (context) =>
-                  new ProfileDetail(d:''))
-              );
-            }, child: Text('profile detail')),
+            // ElevatedButton(onPressed: () {
+            //   Navigator.push(context, new MaterialPageRoute(
+            //       builder: (context) =>
+            //       new ProfileDetail(d:''))
+            //   );
+            // }, child: Text('profile detail')),
             ElevatedButton(onPressed: () {
               Navigator.push(context, new MaterialPageRoute(
                   builder: (context) =>
