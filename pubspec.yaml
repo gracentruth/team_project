@@ -40,14 +40,15 @@ dependencies:
   file_picker: ^4.5.1
   firebase_auth: ^3.3.18
   cloud_firestore: ^3.1.15
-  provider: ^5.0.0
+  provider:
   tflite: ^1.1.2
   path_provider: ^2.0.10
   google_sign_in: ^5.3.1
   google_maps_flutter: ^2.1.5
   speech_to_text: ^5.5.0
   syncfusion_flutter_charts: ^19.1.54
-  #google_maps_place_picker: ^2.1.0-nullsafety.3
+  google_maps_place_picker:
+  http:
 
 
   geolocator:
@@ -56,6 +57,7 @@ dependencies:
   video_player: ^2.4.2
   image_picker_platform_interface: ^2.5.0
   google_maps_place_picker_mb: ^2.0.0-mb.10
+  geocoding: ^2.0.4
 
 
 

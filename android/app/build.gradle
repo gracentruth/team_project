@@ -39,6 +39,7 @@ dependencies {
 
 android {
     compileSdkVersion 32
+    buildToolsVersion "23.0.1"
 
     aaptOptions {
         noCompress 'tflite'
@@ -84,5 +85,6 @@ flutter {
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:30.0.1')
     implementation 'com.google.firebase:firebase-storage:20.0.1'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
