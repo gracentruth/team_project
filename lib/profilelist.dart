@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:team_project/profiledetail.dart';
 
+
+
 import 'addprofile.dart';
 import 'storage.dart';
 
@@ -182,15 +184,16 @@ class Animal extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                 ),
-                                Text(
-                                  desc,
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                                // Text(
+                                //   desc,
+                                //   style: const TextStyle(
+                                //     fontSize: 13,
+                                //     color: Colors.black,
+                                //   ),
+                                // ),
                                 Row(
                                   children: [
+
                                     IconButton(
                                         icon: Icon(
                                           Icons.favorite,
@@ -198,13 +201,13 @@ class Animal extends StatelessWidget {
                                           size: 17,
                                         ),
                                         onPressed: () {}),
-                                    Text(
-                                      like,
-                                      style: const TextStyle(
-                                        fontSize: 17,
-                                        color: Colors.pink,
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   like,
+                                    //   style: const TextStyle(
+                                    //     fontSize: 17,
+                                    //     color: Colors.pink,
+                                    //   ),
+                                    // ),
                                     IconButton(
                                         icon: Icon(
                                           Icons.restaurant_rounded,
@@ -222,13 +225,18 @@ class Animal extends StatelessWidget {
                                   ],
                                 ),
                                 TextButton(
-                                  onPressed: () {
-
+                                  onPressed: () async {
+                                    bool isFavorite;
+                                    final ref = await FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).get();
+                                    List<dynamic> list = ref.data()!['favorite'];
+                                    if(list.contains(name)) {isFavorite = true;}
+                                    else {isFavorite = false;}
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => ProfileDetail(
-                                          d: id
+                                          d: id,
+                                          isFavorite: isFavorite,
                                         ),
                                       ),
                                     );

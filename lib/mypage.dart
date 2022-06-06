@@ -5,6 +5,7 @@ import 'package:team_project/favorite.dart';
 import 'package:team_project/mydetailpage.dart';
 
 import 'eatchartpage.dart';
+import 'livelist.dart';
 
 String name = '';
 
@@ -45,34 +46,39 @@ class _MyPageState extends State<MyPage> {
                   children: [
                     Container(
                         child: Padding(
-                      padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.pets, size: 50),
-                          SizedBox(width: 30),
-                          Container(
-                            width: 230,
-                            child: Row(
-                              children: [
-                                StreamBuilder<DocumentSnapshot>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('user')
-                                        .doc(user.uid)
-                                        .snapshots(),
-                                    builder: (context, snapshots) {
-                                      name = snapshots.data!.get('name');
-
-                                      return Text(
-                                        '${name}',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      );
-                                    }),
-                                SizedBox(
-                                  width: 10,
+                          padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.pets, size: 50),
+                              SizedBox(width: 30),
+                              Container(
+                                width: 230,
+                                child: Row(
+                                  children: [
+                                    // StreamBuilder<DocumentSnapshot>(
+                                    //     stream: FirebaseFirestore.instance.collection('user').doc(user.uid).snapshots(),
+                                    //     builder: (context, snapshots) {
+                                    //        name = snapshots.data!.get('name');
+                                    //
+                                    //       return Text(
+                                    //         '${name}',
+                                    //         style: TextStyle(
+                                    //             fontSize: 20,
+                                    //             fontWeight: FontWeight.bold
+                                    //         ),
+                                    //       );
+                                    //     }
+                                    //     ),
+                                    SizedBox(width: 10,),
+                                    Text(
+                                      '집사',
+                                      style: TextStyle(
+                                        fontSize: 15
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 Text(
                                   '집사',
@@ -114,39 +120,40 @@ class _MyPageState extends State<MyPage> {
                                 Icons.favorite,
                                 color: Colors.black,
                               ),
-                            ),
-                            Text('쵀애 펫')
-                          ],
-                        ),
-                        SizedBox(width: 75),
-                        Column(
-                          children: [
-                            FloatingActionButton(
-                              onPressed: () {},
-                              backgroundColor: Colors.yellow[100],
-                              child: Icon(
-                                Icons.wifi,
-                                color: Colors.black,
+                              Text('쵀애 펫')
+                            ],
+                          ),
+                          SizedBox(width: 75),
+                          Column(
+                            children: [
+                              FloatingActionButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => livelistPage(
+                                          )));
+                                },
+                                backgroundColor: Colors.yellow[100],
+                                child: Icon(Icons.wifi, color: Colors.black,),
                               ),
-                            ),
-                            Text('방송 기록')
-                          ],
-                        ),
-                        SizedBox(width: 75),
-                        Column(
-                          children: [
-                            FloatingActionButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            eatChartPage(n: name)));
-                              },
-                              backgroundColor: Colors.yellow[100],
-                              child: Icon(
-                                Icons.monetization_on,
-                                color: Colors.black,
+                              Text('방송 기록')
+                            ],
+                          ),
+                          SizedBox(width: 75),
+                          Column(
+                            children: [
+                              FloatingActionButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => eatChartPage(
+                                              n: name
+                                          )));
+                                },
+                                backgroundColor: Colors.yellow[100],
+                                child: Icon(Icons.monetization_on, color: Colors.black,),
                               ),
                             ),
                             Text('모금 기록')

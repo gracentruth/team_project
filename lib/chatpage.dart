@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:intl/intl.dart';
+import 'package:text_to_speech/text_to_speech.dart';
 
 String docid = '';
 String petname = '';
@@ -27,6 +27,7 @@ class _ChatPageState extends State<ChatPage> {
   User user = FirebaseAuth.instance.currentUser!;
   final _controller = TextEditingController();
   String message = "";
+  TextToSpeech tts = TextToSpeech();
 
   void send() async {
     FocusScope.of(context).unfocus();
@@ -67,139 +68,116 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(petname)
-      ),
-      backgroundColor: Colors.grey,
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: StreamBuilder<DocumentSnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('chat')
-                      .doc(petname)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    List<dynamic> list = snapshot.data!.get('list') as List<dynamic>;
-                    getname();
-                    return ListView.builder(
-                        itemCount : list.length,
-                        itemBuilder: (context, index) {
-                          if(username != list[index]['name']) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${list[index]['name']}',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      topRight: Radius.circular(15),
-                                      bottomLeft: Radius.circular(0),
-                                      bottomRight: Radius.circular(15),
-                                    ),
-                                  ),
-                                  width: 200,
-                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                  child: Text(
-                                    '${list[index]['text']}',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }
-                          else {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  '${list[index]['name']}',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
+        appBar: AppBar(
+            title: Text(petname)
+        ),
+        backgroundColor: Colors.grey,
+        body: Container(
+          child: Column(
+            children: [
+              Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: StreamBuilder<DocumentSnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('chat')
+                          .doc(petname)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if(snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        List<dynamic> list = snapshot.data!.get('list') as List<dynamic>;
+                        getname();
+                        return ListView.builder(
+                            itemCount : list.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    width: 300,
                                     color: Colors.yellow[100],
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      topRight: Radius.circular(15),
-                                      bottomLeft: Radius.circular(15),
-                                      bottomRight: Radius.circular(0),
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${list[index]['name']}',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(width: 30),
+                                          Text(
+                                            '${DateFormat('yy-MM-dd HH:mm:ss').format(list[index]['time'].toDate())}',
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  width: 200,
-                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                  child: Text(
-                                    '${list[index]['text']}',
-                                    style: TextStyle(
-                                      color: Colors.black,
+                                  Container(
+                                    width: 300,
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      child: Text(
+                                          '${list[index]['text']}'
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 5),
-                              ],
-                            );
-                          }
-                        });
-                  },
-                ),
-              )
-            ),
-            Container(
-              color: Colors.white,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      maxLines: null,
-                      controller: _controller,
-                      decoration: InputDecoration(labelText: 'Send a message...'),
-                      onChanged: (value) {
-                        setState(() {
-                          message = value;
-                        });
+                                  SizedBox(height: 15),
+                                ],
+                              );
+                            });
                       },
                     ),
-                  ),
-                  IconButton(
-                    onPressed: message.trim().isEmpty ? null : send,
-                    icon: Icon(Icons.send),
-                    color: Colors.blue,
-                  ),
-                ],
+                  )
               ),
-            )
-          ],
-        ),
-      )
+              Container(
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        tts.setVolume(100.0);
+                        tts.speak(_controller.text);
+                      },
+                      icon: Icon(Icons.delete),
+                      color: Colors.blue,
+                    ),
+                    Expanded(
+                      child: TextField(
+                        maxLines: null,
+                        controller: _controller,
+                        decoration: InputDecoration(labelText: 'Send a message...'),
+                        onChanged: (value) {
+                          setState(() {
+                            message = value;
+                          });
+                        },
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: message.trim().isEmpty ? null : send,
+                      icon: Icon(Icons.send),
+                      color: Colors.blue,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
 
-        //title: Text(docid)
-      );
+      //title: Text(docid)
+    );
 
 
 
   }
 }
-
 
 
