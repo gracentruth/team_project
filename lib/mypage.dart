@@ -5,6 +5,7 @@ import 'package:team_project/favorite.dart';
 import 'package:team_project/mydetailpage.dart';
 
 import 'eatchartpage.dart';
+import 'livelist.dart';
 
 
 String name='';
@@ -118,7 +119,13 @@ class _MyPageState extends State<MyPage> {
                           Column(
                             children: [
                               FloatingActionButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => livelistPage(
+                                          )));
+                                },
                                 backgroundColor: Colors.yellow[100],
                                 child: Icon(Icons.wifi, color: Colors.black,),
                               ),
@@ -130,17 +137,12 @@ class _MyPageState extends State<MyPage> {
                             children: [
                               FloatingActionButton(
                                 onPressed: () {
-
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => eatChartPage(
                                               n: name
                                           )));
-
-
-
-
                                 },
                                 backgroundColor: Colors.yellow[100],
                                 child: Icon(Icons.monetization_on, color: Colors.black,),
