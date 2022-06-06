@@ -186,13 +186,13 @@ class Animal extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                 ),
-                                Text(
-                                  desc,
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                                // Text(
+                                //   desc,
+                                //   style: const TextStyle(
+                                //     fontSize: 13,
+                                //     color: Colors.black,
+                                //   ),
+                                // ),
                                 Row(
                                   children: [
                                     IconButton(
@@ -202,13 +202,13 @@ class Animal extends StatelessWidget {
                                           size: 17,
                                         ),
                                         onPressed: () {}),
-                                    Text(
-                                      like,
-                                      style: const TextStyle(
-                                        fontSize: 17,
-                                        color: Colors.pink,
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   like,
+                                    //   style: const TextStyle(
+                                    //     fontSize: 17,
+                                    //     color: Colors.pink,
+                                    //   ),
+                                    // ),
                                     IconButton(
                                         icon: Icon(
                                           Icons.restaurant_rounded,
