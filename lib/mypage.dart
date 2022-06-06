@@ -60,20 +60,20 @@ class _MyPageState extends State<MyPage> {
                                 width: 230,
                                 child: Row(
                                   children: [
-                                    StreamBuilder<DocumentSnapshot>(
-                                        stream: FirebaseFirestore.instance.collection('user').doc(user.uid).snapshots(),
-                                        builder: (context, snapshots) {
-                                           name = snapshots.data!.get('name');
-
-                                          return Text(
-                                            '${name}',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                          );
-                                        }
-                                        ),
+                                    // StreamBuilder<DocumentSnapshot>(
+                                    //     stream: FirebaseFirestore.instance.collection('user').doc(user.uid).snapshots(),
+                                    //     builder: (context, snapshots) {
+                                    //        name = snapshots.data!.get('name');
+                                    //
+                                    //       return Text(
+                                    //         '${name}',
+                                    //         style: TextStyle(
+                                    //             fontSize: 20,
+                                    //             fontWeight: FontWeight.bold
+                                    //         ),
+                                    //       );
+                                    //     }
+                                    //     ),
                                     SizedBox(width: 10,),
                                     Text(
                                       '집사',

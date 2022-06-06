@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:team_project/profiledetail.dart';
 
+
+
 import 'addprofile.dart';
 import 'model/animal.dart';
 import 'model/animal_List.dart';
@@ -195,6 +197,7 @@ class Animal extends StatelessWidget {
                                 // ),
                                 Row(
                                   children: [
+
                                     IconButton(
                                         icon: Icon(
                                           Icons.favorite,
@@ -226,13 +229,18 @@ class Animal extends StatelessWidget {
                                   ],
                                 ),
                                 TextButton(
-                                  onPressed: () {
-
+                                  onPressed: () async {
+                                    bool isFavorite;
+                                    final ref = await FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).get();
+                                    List<dynamic> list = ref.data()!['favorite'];
+                                    if(list.contains(name)) {isFavorite = true;}
+                                    else {isFavorite = false;}
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => ProfileDetail(
-                                          d: id
+                                          d: id,
+                                          isFavorite: isFavorite,
                                         ),
                                       ),
                                     );
