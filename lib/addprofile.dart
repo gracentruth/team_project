@@ -5,14 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-//import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:team_project/speech.dart';
 import 'package:tflite/tflite.dart';
-import 'animal_detect.dart';
 import 'Storage.dart';
-import 'appstate.dart';
+import 'getLocaation.dart';
+import 'homepage.dart';
+import 'package:geocoding/geocoding.dart';
 
 class AddProfile extends StatefulWidget {
   const AddProfile({Key? key}) : super(key: key);
@@ -25,21 +25,21 @@ class _AddProfileState extends State<AddProfile> {
   File? _image;
   final picker = ImagePicker();
   List? _outputs;
+  GetLocation location = GetLocation();
+  late double start;
+  late double end;
 
   final isSelected = <bool>[false, true];
 
   final Storage storage = Storage();
-  static final _speech = SpeechToText();
   final _name = TextEditingController();
   final _age = TextEditingController();
   final _sex = TextEditingController();
   final _weight = TextEditingController();
   final _desc = TextEditingController();
-  final _live = TextEditingController();
+  late String _live = "";
 
-  // late String _live;
-  final String place = 'place';
-
+  PickResult? selectedPlace;
   final ScrollController _scrollController = ScrollController();
 
   final _formKey = GlobalKey<FormState>(debugLabel: '_AddProfileState');
@@ -81,17 +81,15 @@ class _AddProfileState extends State<AddProfile> {
                 ),
               ),
               onPressed: () async {
-                // if (_formKey.currentState!.validate()) {
+                location.marker(_live);
                 storage.uploadFile(_image!.path, _name.text + ".png");
 
-                FirebaseFirestore.instance.collection('chat').doc(_name.text).set(
-                    {
-                      'list' : [],
-                    });
-                FirebaseFirestore.instance.collection('video').doc(_name.text).set(
-                    {
-                      'video':'',
-                    });
+                FirebaseFirestore.instance
+                    .collection('chat')
+                    .doc(_name.text)
+                    .set({
+                  'list': [],
+                });
 
                 FirebaseFirestore.instance
                     .collection('animal')
@@ -101,17 +99,13 @@ class _AddProfileState extends State<AddProfile> {
                   'desc': _desc.text,
                   'eat': 0,
                   'image': _name.text + ".png",
-                  'live': _live.text,
+                  'live': _live,
                   'like': false,
                   'name': _name.text,
                   'sex': _sex.text,
                   'weight': int.parse(_weight.text),
-                  'imagelist':[],
-                  'video':'controller'
+                  'imagelist': [],
                 });
-
-
-
                 _name.clear();
                 _sex.clear();
                 _desc.clear();
@@ -186,7 +180,7 @@ class _AddProfileState extends State<AddProfile> {
                   onPressed: (index) {
                     // Respond to button selection
                     setState(
-                          () {
+                      () {
                         isSelected[index] = !isSelected[index];
                         if (index == 0) {
                           isSelected[1] = !isSelected[1];
@@ -232,43 +226,45 @@ class _AddProfileState extends State<AddProfile> {
             SizedBox(
               height: 16,
             ),
-            // Row(
-            //   children: [
-            //     TextButton(
-            //       onPressed: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //             builder: (context) {
-            //               return PlacePicker(
-            //                 apiKey: 'AIzaSyDlI2BGIV4xn0H11J32EGLDVTMcE98Nbw8',
-            //                 initialPosition:
-            //                     LatLng(currentLatitude, currentLongitude),
-            //                 useCurrentLocation: true,
-            //                 selectInitialPosition: true,
-            //
-            //                 //usePlaceDetailSearch: true,
-            //                 onPlacePicked: (result) {
-            //                   place = result;
-            //                   Navigator.of(context).pop();
-            //                   setState(() {});
-            //                 },
-            //               );
-            //             },
-            //           ),
-            //         );
-            //       },
-            //       child: Text("live"),
-            //     ),
-            //     Text(place),
-            //   ],
-            // ),
-            TextFormField(
-              controller: _live,
-              decoration: const InputDecoration(
-                filled: false,
-                labelText: "사는 곳을 입력하세요",
-              ),
+            Row(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return PlacePicker(
+                            apiKey: 'AIzaSyDlI2BGIV4xn0H11J32EGLDVTMcE98Nbw8',
+                            initialPosition:
+                                LatLng(currentLatitude, currentLongitude),
+                            useCurrentLocation: true,
+                            selectInitialPosition: true,
+                            //usePlaceDetailSearch: true,
+                            onPlacePicked: (result) async {
+                              selectedPlace = result;
+                              Navigator.of(context).pop();
+                                _live = selectedPlace?.formattedAddress ?? "";
+                             // List<Location> locations = await locationFromAddress(_live);
+
+                              //start = location.start(_live);
+                              print(selectedPlace.toString());
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: Text("사는 곳을 선택하세요"),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Text(
+              _live,
+              softWrap: true,
             ),
             SizedBox(
               height: 16,
@@ -323,7 +319,7 @@ class _AddProfileState extends State<AddProfile> {
         threshold: 0.2,
         // defaults to 0.1
         asynch: true // defaults to true
-    );
+        );
     setState(() {
       _outputs = output;
       print(_outputs![0]['label'].toString().toUpperCase());

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:team_project/profiledetail.dart';
 
 
 
 import 'addprofile.dart';
-import 'model/animal.dart';
-import 'model/animal_List.dart';
 import 'storage.dart';
 
 class ProfileList extends StatefulWidget {
@@ -18,7 +15,6 @@ class ProfileList extends StatefulWidget {
 }
 
 class _ProfileListState extends State<ProfileList> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
   Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
       .collection('animal')
       .orderBy('name')
