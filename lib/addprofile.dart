@@ -91,6 +91,11 @@ class _AddProfileState extends State<AddProfile> {
                   'list': [],
                 });
 
+                FirebaseFirestore.instance.collection('video').doc(_name.text).set(
+                    {
+                      'video':'',
+                    });
+
                 FirebaseFirestore.instance
                     .collection('animal')
                     .add(<String, dynamic>{
