@@ -8,7 +8,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:team_project/profiledetail.dart';
 import 'package:team_project/speech.dart';
 
-import 'getLocaation.dart';
 import 'mypage.dart';
 
 class MainPage extends StatefulWidget {
