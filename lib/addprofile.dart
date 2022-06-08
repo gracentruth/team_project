@@ -230,40 +230,40 @@ class _AddProfileState extends State<AddProfile> {
             ),
             Row(
               children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return PlacePicker(
-                            apiKey: 'AIzaSyDlI2BGIV4xn0H11J32EGLDVTMcE98Nbw8',
-                            initialPosition:
-                                LatLng(currentLatitude, currentLongitude),
-                            useCurrentLocation: true,
-                            selectInitialPosition: true,
-                            //usePlaceDetailSearch: true
-                            onPlacePicked: (result) async {
-                              selectedPlace = result;
-                              Navigator.of(context).pop();
-                              _live = selectedPlace?.formattedAddress ?? "";
-
-                              List<Location> locations =
-                                  await locationFromAddress(_live);
-                              var live_list =
-                                  locations[0].toString().split(":");
-                              var live_start = live_list[1].split(",");
-                              start = double.parse(live_start[0].toString());
-                              var live_end = live_list[2].split(",");
-                             end = double.parse(live_end[0].toString());
-                            },
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  child: Text("사는 곳을 선택하세요"),
-                ),
+                // TextButton(
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) {
+                //           return PlacePicker(
+                //             apiKey: 'AIzaSyDlI2BGIV4xn0H11J32EGLDVTMcE98Nbw8',
+                //             initialPosition:
+                //                 LatLng(currentLatitude, currentLongitude),
+                //             useCurrentLocation: true,
+                //             selectInitialPosition: true,
+                //             //usePlaceDetailSearch: true
+                //             onPlacePicked: (result) async {
+                //               selectedPlace = result;
+                //               Navigator.of(context).pop();
+                //               _live = selectedPlace?.formattedAddress ?? "";
+                //
+                //               List<Location> locations =
+                //                   await locationFromAddress(_live);
+                //               var live_list =
+                //                   locations[0].toString().split(":");
+                //               var live_start = live_list[1].split(",");
+                //               start = double.parse(live_start[0].toString());
+                //               var live_end = live_list[2].split(",");
+                //              end = double.parse(live_end[0].toString());
+                //             },
+                //           );
+                //         },
+                //       ),
+                //     );
+                //   },
+                //   child: Text("사는 곳을 선택하세요"),
+                // ),
               ],
             ),
             SizedBox(
