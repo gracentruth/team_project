@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:team_project/profiledetail.dart';
@@ -48,7 +49,7 @@ class _ProfileListState extends State<ProfileList> {
                     padding: const EdgeInsets.all(0.0),
                     childAspectRatio: 15.0 / 9.5,
                     children:
-                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                    snapshot.data!.docs.map((DocumentSnapshot document) {
                       return Animal(
                         id: document.id,
                         image: document['image'].toString(),
@@ -125,17 +126,17 @@ class Animal extends StatelessWidget {
                         if (snapshot.connectionState == ConnectionState.done &&
                             snapshot.hasData) {
                           return ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child:Container(
-                              padding: EdgeInsets.all(0.0),
-                              width:200,
+                              borderRadius: BorderRadius.circular(5),
+                              child:Container(
+                                padding: EdgeInsets.all(0.0),
+                                width:200,
 
-                              child:Image.network(
+                                child:Image.network(
 
-                                  snapshot.data!,
-                                  fit: BoxFit.fill
-                              ),
-                            )
+                                    snapshot.data!,
+                                    fit: BoxFit.fill
+                                ),
+                              )
 
                           );
                         }
@@ -267,3 +268,4 @@ class Animal extends StatelessWidget {
     );
   }
 }
+
