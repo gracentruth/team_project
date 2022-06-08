@@ -36,7 +36,7 @@ class _AddProfileState extends State<AddProfile> {
   final _desc = TextEditingController();
   late String _live = "";
 
-  PickResult? selectedPlace;
+ PickResult? selectedPlace;
   final ScrollController _scrollController = ScrollController();
 
   final _formKey = GlobalKey<FormState>(debugLabel: '_AddProfileState');
@@ -87,6 +87,11 @@ class _AddProfileState extends State<AddProfile> {
                     .set({
                   'list': [],
                 });
+
+                FirebaseFirestore.instance.collection('video').doc(_name.text).set(
+                    {
+                      'video':'',
+                    });
 
                 FirebaseFirestore.instance
                     .collection('animal')
