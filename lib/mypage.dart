@@ -129,7 +129,7 @@ class _MyPageState extends State<MyPage> {
                                   backgroundColor: Colors.yellow[100],
                                   child: Icon(Icons.wifi, color: Colors.black,),
                                 ),
-                                Text('방송 기록')
+                                Text('영상기록')
                               ],
                             ),
                             SizedBox(width: 75),
@@ -145,9 +145,9 @@ class _MyPageState extends State<MyPage> {
                                             )));
                                   },
                                   backgroundColor: Colors.yellow[100],
-                                  child: Icon(Icons.monetization_on, color: Colors.black,),
+                                  child: Icon(Icons.rice_bowl, color: Colors.black,),
                                 ),
-                                Text('모금 기록')
+                                Text('식사기록')
                               ],
                             ),
                           ],

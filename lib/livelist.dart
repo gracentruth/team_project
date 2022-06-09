@@ -57,7 +57,7 @@ class _livelistPageState extends State<livelistPage> {
     final Storage storage = Storage();
     //nameList2=['1','2','3','4','5'];
     return Scaffold(
-      //요기부터 보면 훨씬 간단해진 걸 알 수 있다.
+       appBar: AppBar(title: Text('실시간 영상 리스트')),
 
         body: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 30),

@@ -19,21 +19,19 @@ int age = 0;
 String live = '';
 int eat = 0;
 String sex = '';
-bool isFavorite2=false;
+bool isFavorite2 = false;
 List<dynamic> imagelist = [];
 
 class ProfileDetail extends StatefulWidget {
-
   final String d;
   bool isFavorite;
 
-  ProfileDetail({required this.d,required this.isFavorite});
+  ProfileDetail({required this.d, required this.isFavorite});
 
   @override
   _ProfileDetailState createState() {
     docid = d;
-    isFavorite2=isFavorite;
-
+    isFavorite2 = isFavorite;
 
     return _ProfileDetailState();
   }
@@ -45,26 +43,32 @@ class _ProfileDetailState extends State<ProfileDetail> {
   List? _outputs;
   String _fileName = 'logo.png';
   bool isVideo = false;
- // bool isFavorite2;
 
-  Future<bool> onLikeButtonTapped(bool isLiked) async{
-    final ref = await FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).get();
-    final ref2 = await FirebaseFirestore.instance.collection('animal').doc(docid).get();
+  // bool isFavorite2;
+
+  Future<bool> onLikeButtonTapped(bool isLiked) async {
+    final ref = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    final ref2 =
+        await FirebaseFirestore.instance.collection('animal').doc(docid).get();
     List<dynamic> list = ref.data()!['favorite'];
     var name = ref2.data()!['name'];
-    if(!isLiked) {
+    if (!isLiked) {
       list.add(name);
       print(list);
-      FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).set({
-        'favorite' : list
-      });
-    }
-    else {
+      FirebaseFirestore.instance
+          .collection('user')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({'favorite': list});
+    } else {
       list.remove(name);
       print(list);
-      FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).set({
-        'favorite' : list
-      });
+      FirebaseFirestore.instance
+          .collection('user')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({'favorite': list});
     }
     return !isLiked;
   }
@@ -74,9 +78,6 @@ class _ProfileDetailState extends State<ProfileDetail> {
 
   final Stream<DocumentSnapshot> _stream =
       FirebaseFirestore.instance.collection('animal').doc(docid).snapshots();
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -100,29 +101,27 @@ class _ProfileDetailState extends State<ProfileDetail> {
                 children: [
                   FutureBuilder(
                       future: storage.downloadURL(snapshot.data!['image']),
-
                       builder: (BuildContext context,
                           AsyncSnapshot<String> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done &&
                             snapshot.hasData) {
                           print('----image=-----');
-                          print(    snapshot.data!);
+                          print(snapshot.data!);
                           return Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.width,
                             child:
-                            // Image.network(
-                            //   snapshot.data!,
-                            //   fit: BoxFit.fill,
-                            // ),
-                            PhotoView(
+                                // Image.network(
+                                //   snapshot.data!,
+                                //   fit: BoxFit.fill,
+                                // ),
+                                PhotoView(
+
                               imageProvider: NetworkImage(
 
                                 snapshot.data!,
                               ),
                             ),
-
-
                           );
                         }
                         if (!snapshot.hasData) {
@@ -131,51 +130,59 @@ class _ProfileDetailState extends State<ProfileDetail> {
                         return Container();
                       }),
                   Container(
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    child: Row(
-                      children: [
-                        Column(
-                          //mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              snapshot.data!['name'],
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 30,
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                snapshot.data!['name'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 30,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                                '${snapshot.data!['sex']} / ${snapshot.data!['live']}'),
-                            //Text('eat ${snapshot.data!['eat'].toString()}')
-                          ],
-                        ),
-                        SizedBox(
-                          width: 100,
-                        ),
-                        IconButton(
-                          iconSize: 27,
-                          icon: Icon(Icons.chat),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChatPage(
-                                      doc: docid,
-                                      name: snapshot.data!['name'],
-                                    )));
-                          },
-                        ),
-                        //
-                        LikeButton(
-                          isLiked: isFavorite2,
-                          onTap: onLikeButtonTapped,
-                        ),
+                              Text(
+                                  '/${snapshot.data!['sex']}'
+                              ),
+                              SizedBox(
+                                width: 150,
+                              ),
+                              LikeButton(
+                                isLiked: isFavorite2,
+                                onTap: onLikeButtonTapped,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
 
-                      ],
-                    ),
-                  ),
+                              IconButton(
+                                iconSize: 27,
+                                icon: Icon(Icons.chat),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ChatPage(
+                                                doc: docid,
+                                                name: snapshot.data!['name'],
+                                              )));
+                                },
+                              ),
+                              //
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              //Text(''),
+                              Container(
+                                width: 350,
+                                child: Text('${snapshot.data!['live']}'),
+                              ),
+                            ],
+                          )
+                        ],
+                      )),
                   Container(
                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Divider(
@@ -193,27 +200,32 @@ class _ProfileDetailState extends State<ProfileDetail> {
                             FloatingActionButton(
                               backgroundColor: Colors.red,
                               onPressed: () async {
-                                String s2='';
-                               await FirebaseFirestore.instance.collection('video').doc(snapshot.data!['name']).get().then((value)=>{
-                                s2=value.data()!['video'].toString()
+                                String s2 = '';
+                                await FirebaseFirestore.instance
+                                    .collection('video')
+                                    .doc(snapshot.data!['name'])
+                                    .get()
+                                    .then((value) => {
+                                          s2 = value.data()!['video'].toString()
+                                        });
+                                if (s2 == '') {
+                                  s2 = await storage
+                                      .downloadURL('default_video');
+                                } else {
+                                  s2 = await storage.downloadURL(
+                                      '${snapshot.data!['name']}_video');
                                 }
-                                );
-                              if(s2==''){
-                                s2=await storage.downloadURL('default_video');
-                              }else{
-                                s2=await storage.downloadURL('${snapshot.data!['name']}_video');
-                              }
 
-                                controller=await VideoPlayerController.network(s2)
-                                  ..initialize().then((_) {
-                                    setState(() {});
-                                  });
+                                controller =
+                                    await VideoPlayerController.network(s2)
+                                      ..initialize().then((_) {
+                                        setState(() {});
+                                      });
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => LivePage(
-                                      name2: snapshot.data!['name']
-                                        )));
+                                            name2: snapshot.data!['name'])));
                               },
                               heroTag: 'video1',
                               tooltip: 'Take a Video',
@@ -427,7 +439,4 @@ class _ProfileDetailState extends State<ProfileDetail> {
     //await classifyImage(File(image!.path)); // 가져온 이미지를 분류 하기 위해 await을 사용
     return _fileName;
   }
-
-
-
 }
