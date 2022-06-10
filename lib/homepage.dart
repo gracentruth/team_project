@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [MainPage(Latitude: currentLatitude, Longitude: currentLongitude,), MyPage(), ProfileList()];
+  final List<Widget> _children = [MainPage(Latitude: currentLatitude, Longitude: currentLongitude,),ProfileList() , MyPage()];
   void _onTap(int index) {
     setState(() {
       _currentIndex = index;
@@ -44,18 +44,19 @@ class _HomePageState extends State<HomePage> {
               activeColor: Colors.redAccent,
               textAlign: TextAlign.center,
             ),
+
             BottomNavyBarItem(
-              icon: Icon(Icons.people),
-              title: Text('People'),
-              activeColor: Colors.purpleAccent,
+              icon: Icon(Icons.pets),
+              title: Text(
+                'Animal',
+              ),
+              activeColor: Colors.pinkAccent,
               textAlign: TextAlign.center,
             ),
             BottomNavyBarItem(
               icon: Icon(Icons.person),
-              title: Text(
-                'Person',
-              ),
-              activeColor: Colors.pinkAccent,
+              title: Text('MyPage'),
+              activeColor: Colors.purpleAccent,
               textAlign: TextAlign.center,
             ),
           ],

@@ -81,19 +81,20 @@ class _FavoritePageState extends State<FavoritePage> {
                                     fontSize: 15,
                                   ),
                                 ),
-                                leading: Container(
-                                  height: 65,
-                                  width: 65,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(
-                                              'https://post-phinf.pstatic.net/MjAyMDAyMjlfMjY4/MDAxNTgyOTU0Nzg3MjQ4.PBMFV4WrSJmeSUJ56c4C7Vkz_SsQlJ1SByKU18kkJh0g.T7mQnadCWVtEZ448AGk_9kG1HFBAzdztXZcBjvSbduwg.JPEG/고양이_나이1.jpg?type=w1200'
-                                          )
-                                      )
-                                  ),
-                                ),
+
+                                // leading: Container(
+                                //   height: 65,
+                                //   width: 65,
+                                //   decoration: BoxDecoration(
+                                //       shape: BoxShape.circle,
+                                //       image: DecorationImage(
+                                //           fit: BoxFit.fill,
+                                //           image: NetworkImage(
+                                //               'https://post-phinf.pstatic.net/MjAyMDAyMjlfMjY4/MDAxNTgyOTU0Nzg3MjQ4.PBMFV4WrSJmeSUJ56c4C7Vkz_SsQlJ1SByKU18kkJh0g.T7mQnadCWVtEZ448AGk_9kG1HFBAzdztXZcBjvSbduwg.JPEG/고양이_나이1.jpg?type=w1200'
+                                //           )
+                                //       )
+                                //   ),
+                                // ),
                                 trailing: ElevatedButton(
                                   onPressed: () {
                                     favorite.removeAt(index);

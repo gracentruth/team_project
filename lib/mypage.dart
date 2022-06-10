@@ -76,7 +76,7 @@ class _MyPageState extends State<MyPage> {
                                         //     ),
                                         SizedBox(width: 10,),
                                         Text(
-                                          '집사',
+                                          '은진 집사',
                                           style: TextStyle(
                                               fontSize: 15
                                           ),
