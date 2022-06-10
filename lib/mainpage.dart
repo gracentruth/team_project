@@ -10,8 +10,6 @@ import 'package:team_project/Storage.dart';
 import 'package:team_project/profiledetail.dart';
 import 'package:team_project/speech.dart';
 
-import 'mypage.dart';
-
 class MainPage extends StatefulWidget {
   MainPage({required this.Latitude, required this.Longitude});
 
@@ -83,7 +81,7 @@ class _MainPageState extends State<MainPage> {
               );
             },
             title: message.data()['name'],
-            snippet: "${message.data()['live']} / \n${message.data()['sex']} / \n${message.data()['Category']}",
+            snippet: "${message.data()['sex']} / \n${message.data()['Category']}",
           ),
           icon: BitmapDescriptor.defaultMarker, //Icon for Marker
         ));

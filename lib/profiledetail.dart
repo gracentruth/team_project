@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:team_project/updateprofile.dart';
 import 'package:video_player/video_player.dart';
 import 'chatpage.dart';
 import 'eatchartpage.dart';
@@ -19,21 +20,19 @@ int age = 0;
 String live = '';
 int eat = 0;
 String sex = '';
-bool isFavorite2=false;
+bool isFavorite2 = false;
 List<dynamic> imagelist = [];
 
 class ProfileDetail extends StatefulWidget {
-
   final String d;
   bool isFavorite;
 
-  ProfileDetail({required this.d,required this.isFavorite});
+  ProfileDetail({required this.d, required this.isFavorite});
 
   @override
   _ProfileDetailState createState() {
     docid = d;
-    isFavorite2=isFavorite;
-
+    isFavorite2 = isFavorite;
 
     return _ProfileDetailState();
   }
@@ -45,26 +44,32 @@ class _ProfileDetailState extends State<ProfileDetail> {
   List? _outputs;
   String _fileName = 'logo.png';
   bool isVideo = false;
- // bool isFavorite2;
 
-  Future<bool> onLikeButtonTapped(bool isLiked) async{
-    final ref = await FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).get();
-    final ref2 = await FirebaseFirestore.instance.collection('animal').doc(docid).get();
+  // bool isFavorite2;
+
+  Future<bool> onLikeButtonTapped(bool isLiked) async {
+    final ref = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    final ref2 =
+        await FirebaseFirestore.instance.collection('animal').doc(docid).get();
     List<dynamic> list = ref.data()!['favorite'];
     var name = ref2.data()!['name'];
-    if(!isLiked) {
+    if (!isLiked) {
       list.add(name);
       print(list);
-      FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).set({
-        'favorite' : list
-      });
-    }
-    else {
+      FirebaseFirestore.instance
+          .collection('user')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({'favorite': list});
+    } else {
       list.remove(name);
       print(list);
-      FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid).set({
-        'favorite' : list
-      });
+      FirebaseFirestore.instance
+          .collection('user')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({'favorite': list});
     }
     return !isLiked;
   }
@@ -75,8 +80,10 @@ class _ProfileDetailState extends State<ProfileDetail> {
   final Stream<DocumentSnapshot> _stream =
       FirebaseFirestore.instance.collection('animal').doc(docid).snapshots();
 
-
-
+  void _delete() async {
+    Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+    animal.doc(docid).delete();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +97,26 @@ class _ProfileDetailState extends State<ProfileDetail> {
         return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              centerTitle: true,
-              title: Text(snapshot.data!['name']),
-            ),
+                centerTitle: true,
+                title: Text(snapshot.data!['name']),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UpdateProfile(
+                              docId: docid,
+                            ),
+                          ));
+                    },
+                    icon: const Icon(Icons.create)),
+                IconButton(
+                    onPressed: () {
+                      _delete();
+                    },
+                    icon: const Icon(Icons.delete))
+              ],),
             body: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -100,29 +124,25 @@ class _ProfileDetailState extends State<ProfileDetail> {
                 children: [
                   FutureBuilder(
                       future: storage.downloadURL(snapshot.data!['image']),
-
                       builder: (BuildContext context,
                           AsyncSnapshot<String> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done &&
                             snapshot.hasData) {
                           print('----image=-----');
-                          print(    snapshot.data!);
+                          print(snapshot.data!);
                           return Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.width,
                             child:
-                            // Image.network(
-                            //   snapshot.data!,
-                            //   fit: BoxFit.fill,
-                            // ),
-                            PhotoView(
+                                // Image.network(
+                                //   snapshot.data!,
+                                //   fit: BoxFit.fill,
+                                // ),
+                                PhotoView(
                               imageProvider: NetworkImage(
-
                                 snapshot.data!,
                               ),
                             ),
-
-
                           );
                         }
                         if (!snapshot.hasData) {
@@ -162,9 +182,9 @@ class _ProfileDetailState extends State<ProfileDetail> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ChatPage(
-                                      doc: docid,
-                                      name: snapshot.data!['name'],
-                                    )));
+                                          doc: docid,
+                                          name: snapshot.data!['name'],
+                                        )));
                           },
                         ),
                         //
@@ -172,7 +192,6 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           isLiked: isFavorite2,
                           onTap: onLikeButtonTapped,
                         ),
-
                       ],
                     ),
                   ),
@@ -193,27 +212,32 @@ class _ProfileDetailState extends State<ProfileDetail> {
                             FloatingActionButton(
                               backgroundColor: Colors.red,
                               onPressed: () async {
-                                String s2='';
-                               await FirebaseFirestore.instance.collection('video').doc(snapshot.data!['name']).get().then((value)=>{
-                                s2=value.data()!['video'].toString()
+                                String s2 = '';
+                                await FirebaseFirestore.instance
+                                    .collection('video')
+                                    .doc(snapshot.data!['name'])
+                                    .get()
+                                    .then((value) => {
+                                          s2 = value.data()!['video'].toString()
+                                        });
+                                if (s2 == '') {
+                                  s2 = await storage
+                                      .downloadURL('default_video');
+                                } else {
+                                  s2 = await storage.downloadURL(
+                                      '${snapshot.data!['name']}_video');
                                 }
-                                );
-                              if(s2==''){
-                                s2=await storage.downloadURL('default_video');
-                              }else{
-                                s2=await storage.downloadURL('${snapshot.data!['name']}_video');
-                              }
 
-                                controller=await VideoPlayerController.network(s2)
-                                  ..initialize().then((_) {
-                                    setState(() {});
-                                  });
+                                controller =
+                                    await VideoPlayerController.network(s2)
+                                      ..initialize().then((_) {
+                                        setState(() {});
+                                      });
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => LivePage(
-                                      name2: snapshot.data!['name']
-                                        )));
+                                            name2: snapshot.data!['name'])));
                               },
                               heroTag: 'video1',
                               tooltip: 'Take a Video',
@@ -427,7 +451,4 @@ class _ProfileDetailState extends State<ProfileDetail> {
     //await classifyImage(File(image!.path)); // 가져온 이미지를 분류 하기 위해 await을 사용
     return _fileName;
   }
-
-
-
 }
