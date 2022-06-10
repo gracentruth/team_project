@@ -151,18 +151,30 @@ class _ProfileDetailState extends State<ProfileDetail> {
                         return Container();
                       }),
                   Container(
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    child: Row(
-                      children: [
-                        Column(
-                          //mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              snapshot.data!['name'],
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 30,
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                snapshot.data!['name'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 30,
+                                ),
+                              ),
+                              Text(
+                                  '/${snapshot.data!['sex']}'
+                              ),
+                              SizedBox(
+                                width: 150,
+                              ),
+                              LikeButton(
+                                isLiked: isFavorite2,
+                                onTap: onLikeButtonTapped,
+                              ),
+                              SizedBox(
+                                width: 10,
                               ),
                             ),
                             SizedBox(height: 10),
@@ -195,6 +207,34 @@ class _ProfileDetailState extends State<ProfileDetail> {
                       ],
                     ),
                   ),
+
+                              IconButton(
+                                iconSize: 27,
+                                icon: Icon(Icons.chat),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ChatPage(
+                                                doc: docid,
+                                                name: snapshot.data!['name'],
+                                              )));
+                                },
+                              ),
+                              //
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              //Text(''),
+                              Container(
+                                width: 350,
+                                child: Text('${snapshot.data!['live']}'),
+                              ),
+                            ],
+                          )
+                        ],
+                      )),
                   Container(
                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Divider(
