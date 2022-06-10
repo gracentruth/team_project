@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:team_project/updateprofile.dart';
 import 'package:video_player/video_player.dart';
 import 'chatpage.dart';
 import 'livepage.dart';
@@ -96,24 +95,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
             appBar: AppBar(
               centerTitle: true,
               title: Text(snapshot.data!['name']),
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => UpdateProfile(
-                      //         docId: docid,
-                      //       ),
-                      //     ));
-                    },
-                    icon: const Icon(Icons.create)),
-                IconButton(
-                    onPressed: () {
-                      _delete();
-                    },
-                    icon: const Icon(Icons.delete))
-              ],),
+            ),
             body: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

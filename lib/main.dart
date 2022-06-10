@@ -8,7 +8,6 @@ import 'appstate.dart';
 //import 'chart.dart';
 import 'profiledetail.dart';
 import 'profilelist.dart';
-import 'updateprofile.dart';
 import 'app.dart';
 import 'login.dart';
 import 'mainpage.dart';
