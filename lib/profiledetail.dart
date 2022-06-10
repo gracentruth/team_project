@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:team_project/updateprofile.dart';
 import 'package:video_player/video_player.dart';
 import 'chatpage.dart';
 import 'eatchartpage.dart';
@@ -79,6 +80,11 @@ class _ProfileDetailState extends State<ProfileDetail> {
   final Stream<DocumentSnapshot> _stream =
       FirebaseFirestore.instance.collection('animal').doc(docid).snapshots();
 
+  void _delete() async {
+    Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+    animal.doc(docid).delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Storage storage = Storage();
@@ -91,9 +97,26 @@ class _ProfileDetailState extends State<ProfileDetail> {
         return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              centerTitle: true,
-              title: Text(snapshot.data!['name']),
-            ),
+                centerTitle: true,
+                title: Text(snapshot.data!['name']),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UpdateProfile(
+                              docId: docid,
+                            ),
+                          ));
+                    },
+                    icon: const Icon(Icons.create)),
+                IconButton(
+                    onPressed: () {
+                      _delete();
+                    },
+                    icon: const Icon(Icons.delete))
+              ],),
             body: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -116,9 +139,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                                 //   fit: BoxFit.fill,
                                 // ),
                                 PhotoView(
-
                               imageProvider: NetworkImage(
-
                                 snapshot.data!,
                               ),
                             ),
@@ -155,6 +176,37 @@ class _ProfileDetailState extends State<ProfileDetail> {
                               SizedBox(
                                 width: 10,
                               ),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                                '${snapshot.data!['sex']} / ${snapshot.data!['live']}'),
+                            //Text('eat ${snapshot.data!['eat'].toString()}')
+                          ],
+                        ),
+                        SizedBox(
+                          width: 100,
+                        ),
+                        IconButton(
+                          iconSize: 27,
+                          icon: Icon(Icons.chat),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatPage(
+                                          doc: docid,
+                                          name: snapshot.data!['name'],
+                                        )));
+                          },
+                        ),
+                        //
+                        LikeButton(
+                          isLiked: isFavorite2,
+                          onTap: onLikeButtonTapped,
+                        ),
+                      ],
+                    ),
+                  ),
 
                               IconButton(
                                 iconSize: 27,
