@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:team_project/updateprofile.dart';
 import 'package:video_player/video_player.dart';
 import 'chatpage.dart';
-import 'eatchartpage.dart';
 import 'livepage.dart';
 import 'storage.dart';
 import 'package:photo_view/photo_view.dart';
@@ -45,15 +44,13 @@ class _ProfileDetailState extends State<ProfileDetail> {
   String _fileName = 'logo.png';
   bool isVideo = false;
 
-  // bool isFavorite2;
-
   Future<bool> onLikeButtonTapped(bool isLiked) async {
     final ref = await FirebaseFirestore.instance
         .collection('user')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
     final ref2 =
-        await FirebaseFirestore.instance.collection('animal').doc(docid).get();
+    await FirebaseFirestore.instance.collection('animal').doc(docid).get();
     List<dynamic> list = ref.data()!['favorite'];
     var name = ref2.data()!['name'];
     if (!isLiked) {
@@ -75,10 +72,10 @@ class _ProfileDetailState extends State<ProfileDetail> {
   }
 
   final CollectionReference animal =
-      FirebaseFirestore.instance.collection('animal');
+  FirebaseFirestore.instance.collection('animal');
 
   final Stream<DocumentSnapshot> _stream =
-      FirebaseFirestore.instance.collection('animal').doc(docid).snapshots();
+  FirebaseFirestore.instance.collection('animal').doc(docid).snapshots();
 
   void _delete() async {
     Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
@@ -97,18 +94,18 @@ class _ProfileDetailState extends State<ProfileDetail> {
         return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-                centerTitle: true,
-                title: Text(snapshot.data!['name']),
+              centerTitle: true,
+              title: Text(snapshot.data!['name']),
               actions: [
                 IconButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UpdateProfile(
-                              docId: docid,
-                            ),
-                          ));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => UpdateProfile(
+                      //         docId: docid,
+                      //       ),
+                      //     ));
                     },
                     icon: const Icon(Icons.create)),
                 IconButton(
@@ -134,11 +131,11 @@ class _ProfileDetailState extends State<ProfileDetail> {
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.width,
                             child:
-                                // Image.network(
-                                //   snapshot.data!,
-                                //   fit: BoxFit.fill,
-                                // ),
-                                PhotoView(
+                            // Image.network(
+                            //   snapshot.data!,
+                            //   fit: BoxFit.fill,
+                            // ),
+                            PhotoView(
                               imageProvider: NetworkImage(
                                 snapshot.data!,
                               ),
@@ -151,90 +148,85 @@ class _ProfileDetailState extends State<ProfileDetail> {
                         return Container();
                       }),
                   Container(
-                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                snapshot.data!['name'],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 30,
+                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: Row(
+                      children: [
+                        Column(
+                          //mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  snapshot.data!['name'],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 30,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                  '/${snapshot.data!['sex']}'
-                              ),
-                              SizedBox(
-                                width: 150,
-                              ),
-                              LikeButton(
-                                isLiked: isFavorite2,
-                                onTap: onLikeButtonTapped,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
+                                Text(
+                                    '/${snapshot.data!['sex']}'
+                                ),
+                                SizedBox(
+                                  width: 170,
+                                ),
+                                LikeButton(
+                                  isLiked: isFavorite2,
+                                  onTap: onLikeButtonTapped,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+
+                                IconButton(
+                                  iconSize: 27,
+                                  icon: Icon(Icons.chat),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChatPage(
+                                              doc: docid,
+                                              name: snapshot.data!['name'],
+                                            )));
+                                  },
+                                ),
+                                //
+                              ],
                             ),
-                            SizedBox(height: 10),
-                            Text(
-                                '${snapshot.data!['sex']} / ${snapshot.data!['live']}'),
-                            //Text('eat ${snapshot.data!['eat'].toString()}')
+                            Row(
+                              children: [
+                                //Text(''),
+                                Container(
+                                  width: 300,
+                                  child: Text('${snapshot.data!['live']}'),
+                                ),
+                              ],
+                            )
                           ],
                         ),
-                        SizedBox(
-                          width: 100,
-                        ),
-                        IconButton(
-                          iconSize: 27,
-                          icon: Icon(Icons.chat),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChatPage(
-                                          doc: docid,
-                                          name: snapshot.data!['name'],
-                                        )));
-                          },
-                        ),
-                        //
-                        LikeButton(
-                          isLiked: isFavorite2,
-                          onTap: onLikeButtonTapped,
-                        ),
+
+                        // IconButton(
+                        //   iconSize: 27,
+                        //   icon: Icon(Icons.chat),
+                        //   onPressed: () {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => ChatPage(
+                        //               doc: docid,
+                        //               name: snapshot.data!['name'],
+                        //             )));
+                        //   },
+                        // ),
+                        // //
+                        // LikeButton(
+                        //   isLiked: isFavorite2,
+                        //   onTap: onLikeButtonTapped,
+                        // ),
                       ],
                     ),
                   ),
-
-                              IconButton(
-                                iconSize: 27,
-                                icon: Icon(Icons.chat),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ChatPage(
-                                                doc: docid,
-                                                name: snapshot.data!['name'],
-                                              )));
-                                },
-                              ),
-                              //
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              //Text(''),
-                              Container(
-                                width: 350,
-                                child: Text('${snapshot.data!['live']}'),
-                              ),
-                            ],
-                          )
-                        ],
-                      )),
                   Container(
                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Divider(
@@ -258,8 +250,8 @@ class _ProfileDetailState extends State<ProfileDetail> {
                                     .doc(snapshot.data!['name'])
                                     .get()
                                     .then((value) => {
-                                          s2 = value.data()!['video'].toString()
-                                        });
+                                  s2 = value.data()!['video'].toString()
+                                });
                                 if (s2 == '') {
                                   s2 = await storage
                                       .downloadURL('default_video');
@@ -269,10 +261,10 @@ class _ProfileDetailState extends State<ProfileDetail> {
                                 }
 
                                 controller =
-                                    await VideoPlayerController.network(s2)
-                                      ..initialize().then((_) {
-                                        setState(() {});
-                                      });
+                                await VideoPlayerController.network(s2)
+                                  ..initialize().then((_) {
+                                    setState(() {});
+                                  });
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -283,7 +275,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                               tooltip: 'Take a Video',
                               child: const Icon(Icons.videocam),
                             ),
-                            Text('라이브톡2')
+                            Text('라이브톡')
                           ],
                         ),
                         SizedBox(width: 20),
@@ -391,7 +383,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                         child: GridView.builder(
                           shrinkWrap: true,
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                          SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3, //1 개의 행에 보여줄 item 개수
                             childAspectRatio: 1 / 1, //item 의 가로 1, 세로 2 의 비율
                             mainAxisSpacing: 10, //수평 Padding
@@ -403,72 +395,72 @@ class _ProfileDetailState extends State<ProfileDetail> {
                             print(index);
                             return index == imagelist.length
                                 ? Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      child: Container(
-                                        color: Colors.grey,
-                                        child: IconButton(
-                                          icon: const Icon(Icons.add_a_photo),
-                                          onPressed: () async {
-                                            await getImage(ImageSource.camera);
-                                            int listlength = imagelist.length;
-                                            String imagename =
-                                                '${snapshot.data!['name']}${listlength + 1}';
-                                            storage.uploadFile(
-                                                _image!.path, imagename);
+                              padding:
+                              const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Container(
+                                  color: Colors.grey,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.add_a_photo),
+                                    onPressed: () async {
+                                      await getImage(ImageSource.camera);
+                                      int listlength = imagelist.length;
+                                      String imagename =
+                                          '${snapshot.data!['name']}${listlength + 1}';
+                                      storage.uploadFile(
+                                          _image!.path, imagename);
 
-                                            imagelist.add(imagename);
-                                            animal.doc(docid).set({
-                                              'Category':
-                                                  snapshot.data!['Category'],
-                                              'age': snapshot.data!['age'],
-                                              'desc': snapshot.data!['desc'],
-                                              'eat': rice,
-                                              'image': snapshot.data!['image'],
-                                              'live': snapshot.data!['live'],
-                                              'like': snapshot.data!['like'],
-                                              'name': snapshot.data!['name'],
-                                              'sex': snapshot.data!['sex'],
-                                              'weight':
-                                                  snapshot.data!['weight'],
-                                              'imagelist': imagelist,
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  )
+                                      imagelist.add(imagename);
+                                      animal.doc(docid).set({
+                                        'Category':
+                                        snapshot.data!['Category'],
+                                        'age': snapshot.data!['age'],
+                                        'desc': snapshot.data!['desc'],
+                                        'eat': rice,
+                                        'image': snapshot.data!['image'],
+                                        'live': snapshot.data!['live'],
+                                        'like': snapshot.data!['like'],
+                                        'name': snapshot.data!['name'],
+                                        'sex': snapshot.data!['sex'],
+                                        'weight':
+                                        snapshot.data!['weight'],
+                                        'imagelist': imagelist,
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            )
                                 : Container(
-                                    child: FutureBuilder(
-                                        future: storage
-                                            .downloadURL(imagelist[index]),
-                                        //snapshot.data!['name']
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<String> snapshot) {
-                                          if (snapshot.connectionState ==
-                                                  ConnectionState.done &&
-                                              snapshot.hasData) {
-                                            return Container(
-                                              //width:180,
-                                              // height: 300,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                child: Image.network(
-                                                  snapshot.data!,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                          if (!snapshot.hasData) {
-                                            return CircularProgressIndicator();
-                                          }
-                                          return Container();
-                                        }),
-                                  );
+                              child: FutureBuilder(
+                                  future: storage
+                                      .downloadURL(imagelist[index]),
+                                  //snapshot.data!['name']
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done &&
+                                        snapshot.hasData) {
+                                      return Container(
+                                        //width:180,
+                                        // height: 300,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                          BorderRadius.circular(10.0),
+                                          child: Image.network(
+                                            snapshot.data!,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    if (!snapshot.hasData) {
+                                      return CircularProgressIndicator();
+                                    }
+                                    return Container();
+                                  }),
+                            );
                           },
                         ),
                       ),
