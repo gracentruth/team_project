@@ -36,7 +36,7 @@ class _AddProfileState extends State<AddProfile> {
   final _desc = TextEditingController();
   late String _live = "";
 
- PickResult? selectedPlace;
+  PickResult? selectedPlace;
   final ScrollController _scrollController = ScrollController();
 
   final _formKey = GlobalKey<FormState>(debugLabel: '_AddProfileState');

@@ -116,7 +116,8 @@ class _MainPageState extends State<MainPage> {
               height: 50,
             ),
             Container(
-              height: 400,
+              height: 600,
+              width: 400,
               child: currentLatitude != 0 && currentLongitude != 0
                   ? GoogleMap(
                 markers: _markers,
