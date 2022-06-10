@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+//import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
 import 'Storage.dart';
@@ -36,7 +36,7 @@ class _AddProfileState extends State<AddProfile> {
   final _desc = TextEditingController();
   late String _live = "";
 
-  PickResult? selectedPlace;
+  //PickResult? selectedPlace;
   final ScrollController _scrollController = ScrollController();
 
   final _formKey = GlobalKey<FormState>(debugLabel: '_AddProfileState');
@@ -230,44 +230,44 @@ class _AddProfileState extends State<AddProfile> {
             SizedBox(
               height: 16,
             ),
-            Row(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return PlacePicker(
-                            apiKey: 'AIzaSyDlI2BGIV4xn0H11J32EGLDVTMcE98Nbw8',
-                            initialPosition:
-                                LatLng(currentLatitude, currentLongitude),
-                            useCurrentLocation: true,
-                            selectInitialPosition: true,
-                            //usePlaceDetailSearch: true
-                            onPlacePicked: (result) async {
-                              selectedPlace = result;
-                              Navigator.of(context).pop();
-                              _live = selectedPlace?.formattedAddress ?? "";
-
-                              List<Location> locations =
-                                  await locationFromAddress(_live);
-                              var live_list =
-                                  locations[0].toString().split(":");
-                              var live_start = live_list[1].split(",");
-                              start = double.parse(live_start[0].toString());
-                              var live_end = live_list[2].split(",");
-                             end = double.parse(live_end[0].toString());
-                            },
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  child: Text("사는 곳을 선택하세요"),
-                ),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     TextButton(
+            //       onPressed: () {
+            //         Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //             builder: (context) {
+            //               return PlacePicker(
+            //                 apiKey: 'AIzaSyDlI2BGIV4xn0H11J32EGLDVTMcE98Nbw8',
+            //                 initialPosition:
+            //                     LatLng(currentLatitude, currentLongitude),
+            //                 useCurrentLocation: true,
+            //                 selectInitialPosition: true,
+            //                 //usePlaceDetailSearch: true
+            //                 onPlacePicked: (result) async {
+            //                   selectedPlace = result;
+            //                   Navigator.of(context).pop();
+            //                   _live = selectedPlace?.formattedAddress ?? "";
+            //
+            //                   List<Location> locations =
+            //                       await locationFromAddress(_live);
+            //                   var live_list =
+            //                       locations[0].toString().split(":");
+            //                   var live_start = live_list[1].split(",");
+            //                   start = double.parse(live_start[0].toString());
+            //                   var live_end = live_list[2].split(",");
+            //                  end = double.parse(live_end[0].toString());
+            //                 },
+            //               );
+            //             },
+            //           ),
+            //         );
+            //       },
+            //       child: Text("사는 곳을 선택하세요"),
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: 16,
             ),
