@@ -145,7 +145,7 @@ class _ChatPageState extends State<ChatPage> {
                         tts.setVolume(100.0);
                         tts.speak(_controller.text);
                       },
-                      icon: Icon(Icons.delete),
+                      icon: Icon(Icons.volume_up),
                       color: Colors.blue,
                     ),
                     Expanded(
