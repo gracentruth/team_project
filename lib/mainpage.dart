@@ -10,8 +10,6 @@ import 'package:team_project/Storage.dart';
 import 'package:team_project/profiledetail.dart';
 import 'package:team_project/speech.dart';
 
-import 'mypage.dart';
-
 class MainPage extends StatefulWidget {
   MainPage({required this.Latitude, required this.Longitude});
 
