@@ -283,7 +283,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
                               tooltip: 'Take a Video',
                               child: const Icon(Icons.videocam),
                             ),
-                            Text('라이브톡')
+                            Text('라이브톡2')
                           ],
                         ),
                         SizedBox(width: 20),
