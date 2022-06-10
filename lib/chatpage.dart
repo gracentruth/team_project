@@ -105,7 +105,7 @@ class _ChatPageState extends State<ChatPage> {
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${list[index]['name']}',
+                                            'eunjin',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                             ),
