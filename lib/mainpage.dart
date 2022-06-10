@@ -83,7 +83,7 @@ class _MainPageState extends State<MainPage> {
               );
             },
             title: message.data()['name'],
-            snippet: "${message.data()['live']} / \n${message.data()['sex']} / \n${message.data()['Category']}",
+            snippet: "${message.data()['sex']} / \n${message.data()['Category']}",
           ),
           icon: BitmapDescriptor.defaultMarker, //Icon for Marker
         ));
