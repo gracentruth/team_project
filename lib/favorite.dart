@@ -42,6 +42,9 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('좋아하는 동물 '),
+      ),
       resizeToAvoidBottomInset: false,
       body: ListView(
         children: [

@@ -47,7 +47,7 @@ dependencies:
   google_maps_flutter: ^2.1.5
   speech_to_text: ^5.5.0
   syncfusion_flutter_charts: ^19.1.54
-  #google_maps_place_picker:
+  google_maps_place_picker:
   http:
 
 
